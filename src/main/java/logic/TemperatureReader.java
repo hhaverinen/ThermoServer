@@ -2,7 +2,7 @@ package logic;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-
+import java.time.LocalDateTime;
 import pojo.Temperature;
 
 /**
@@ -33,7 +33,7 @@ public class TemperatureReader {
 			// continue
 		}
 
-		return new Temperature("Current temperature", temperature);
+		return new Temperature("Current temperature", temperature, LocalDateTime.now().toString());
 	}
 
 }

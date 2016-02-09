@@ -10,12 +10,13 @@ package pojo;
 public class Temperature {
 
 	private final String description;
-	
 	private final double temperature;
+	private final String date;
 
-	public Temperature(String description, double temperature) {
+	public Temperature(String description, double temperature, String date) {
 		this.description = description;
 		this.temperature = temperature;
+		this.date = date;
 	}
 	
 	public String getDescription() {
@@ -24,6 +25,10 @@ public class Temperature {
 
 	public double getTemperature() {
 		return temperature;
+	}
+
+	public String getDate() {
+		return date;
 	}
 	
 }
