@@ -14,23 +14,36 @@
 
 package application;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import logic.CharLCD;
 import logic.TemperatureReader;
 import pojo.Temperature;
 
 /**
  * @author Henri Haverinen
- * @version 8.2.2016
+ * @version 24.2.2016
  *
- * Controller class for RESTful service
+ * Class for managing scheduled tasks
  */
-@RestController
-public class TemperatureController {
+@Component
+public class ScheduledTasks {
 
-	@RequestMapping("/temperature")
-	public Temperature temperature() {
-		return TemperatureReader.readTemperature();
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm:ss");
+	
+	/**
+	 * updates data shown on the display
+	 */
+	@Scheduled(fixedRate = 60000)
+	public void updateTemperature(){
+		CharLCD lcd = new CharLCD();
+		lcd.clear();
+		Temperature temp = TemperatureReader.readTemperature();
+		String text = dateFormat.format(new Date()) + "\n" + "Temp: " + Double.toString(temp.getTemperature());
+		lcd.message(text);
 	}
 }

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.stuff</groupId>
 	<artifactId>thermoServer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Thermoserver</name>
 	<description>RESTful service for getting temperature from raspberry pi</description>
 
@@ -17,6 +17,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.pi4j</groupId>
+		    <artifactId>pi4j-core</artifactId>
+		    <version>1.0</version>
 		</dependency>
 	</dependencies>
 
