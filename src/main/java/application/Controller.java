@@ -15,8 +15,10 @@
 package application;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import logic.CharLCD;
 import logic.TemperatureReader;
 import pojo.Temperature;
 
@@ -27,10 +29,16 @@ import pojo.Temperature;
  * Controller class for RESTful service
  */
 @RestController
-public class TemperatureController {
+public class Controller {
 
 	@RequestMapping("/temperature")
 	public Temperature temperature() {
 		return TemperatureReader.readTemperature();
+	}
+	
+	@RequestMapping("/setBacklight")
+	public String setBacklight(@RequestParam(value="backlightOn") boolean backlightOn) {
+		CharLCD.setBacklight(backlightOn);
+		return "Backlight is " + ((backlightOn) ? "on" : "off");
 	}
 }

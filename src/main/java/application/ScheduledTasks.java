@@ -40,10 +40,9 @@ public class ScheduledTasks {
 	 */
 	@Scheduled(fixedRate = 60000)
 	public void updateTemperature(){
-		CharLCD lcd = new CharLCD();
-		lcd.clear();
+		CharLCD.clear();
 		Temperature temp = TemperatureReader.readTemperature();
 		String text = dateFormat.format(new Date()) + "\n" + "Temp: " + Double.toString(temp.getTemperature());
-		lcd.message(text);
+		CharLCD.message(text);
 	}
 }

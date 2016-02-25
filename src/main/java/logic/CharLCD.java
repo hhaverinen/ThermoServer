@@ -3,8 +3,7 @@
  * Pretty literal port of Adafruit Industries's CharLCD.py to Java, using Pi4J library
  * Some custom changes made also.
  *
- * Copyright (c) 2014 Adafruit Industries
- * Author: Tony DiCola
+ * Copyright to original CharLCD.py code is owned by Adafruit Industries / Tony DiCola
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +25,7 @@ import com.pi4j.io.gpio.*;
  * @version 24.2.2016
  * Class to represent and interact with an HD44780 character LCD display.
  */
-public class CharLCD {
+public final class CharLCD {
 	// Commands
 	static final int LCD_CLEARDISPLAY        = 0x01;
 	static final int LCD_RETURNHOME          = 0x02;
@@ -70,7 +69,7 @@ public class CharLCD {
 	static final int LCD_PLATE_D5            = 5;
 	static final int LCD_PLATE_D6            = 4;
 	static final int LCD_PLATE_D7            = 1;
-	static final int LCD_PLATE_RED           = 9;
+	static final int LCD_PLATE_RED           = 11;
 
 	// Gpio controller and pins
 	private static final GpioController gpio = GpioFactory.getInstance();;
@@ -80,7 +79,7 @@ public class CharLCD {
 	private static final GpioPinDigitalOutput d5Pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05,PinState.LOW);
 	private static final GpioPinDigitalOutput d6Pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,PinState.LOW);
 	private static final GpioPinDigitalOutput d7Pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01,PinState.LOW);
-	private static final GpioPinDigitalOutput backlightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09,PinState.LOW);
+	private static final GpioPinDigitalOutput backlightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00,PinState.LOW);
 	
 	private static int displayControl = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
 	private static int displayFunction = LCD_4BITMODE | LCD_1LINE | LCD_2LINE | LCD_5x8DOTS;
@@ -93,7 +92,7 @@ public class CharLCD {
 	/**
 	 * initialize display
 	 */
-	public CharLCD(){
+	private CharLCD(){
 		write8(0x33,false);
 		write8(0x32,false);
 		write8(LCD_DISPLAYCONTROL | displayControl, false);
@@ -118,10 +117,10 @@ public class CharLCD {
 	/**
 	 * set cursor position to zero
 	 */
-	public void home() {
+	public static void home() {
 		try {
 			write8(LCD_RETURNHOME, false);
-			Thread.sleep(3000);
+			Thread.sleep(3);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,10 +129,10 @@ public class CharLCD {
 	/**
 	 * clears the display
 	 */
-	public void clear(){
+	public static void clear(){
 		try {
 			write8(LCD_CLEARDISPLAY, false);
-			Thread.sleep(3000);
+			Thread.sleep(3);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -144,7 +143,7 @@ public class CharLCD {
 	 * @param col number of column
 	 * @param row number of row
 	 */
-	public void setCursor(int col, int row) {
+	public static void setCursor(int col, int row) {
 		if (row > lines) row = lines - 1;
 		write8(LCD_SETDDRAMADDR | (col + LCD_ROW_OFFSETS[row]), false);
 	}
@@ -153,7 +152,7 @@ public class CharLCD {
 	 * enables or disables the display
 	 * @param enable true enables, false disables
 	 */
-	public void enableDisplay(boolean enable) {
+	public static void enableDisplay(boolean enable) {
 		if (enable) CharLCD.displayControl |= LCD_DISPLAYON;
 		else CharLCD.displayControl &= ~LCD_DISPLAYON;
 		write8(LCD_DISPLAYCONTROL | CharLCD.displayControl, false);
@@ -163,7 +162,7 @@ public class CharLCD {
 	 * shows or hides the cursor
 	 * @param show true shows, false hides
 	 */
-	public void showCursor(boolean show) {
+	public static void showCursor(boolean show) {
 		if (show) CharLCD.displayControl |= LCD_CURSORON;
 		else CharLCD.displayControl &= ~LCD_CURSORON;
 		write8(LCD_DISPLAYCONTROL | CharLCD.displayControl, false);
@@ -173,7 +172,7 @@ public class CharLCD {
 	 * blinks cursor or stops the blinking
 	 * @param blink true blinks, false stops
 	 */
-	public void blink(boolean blink) {
+	public static void blink(boolean blink) {
 		if (blink) CharLCD.displayControl |= LCD_BLINKON;
 		else CharLCD.displayControl &= ~LCD_BLINKON;
 		write8(LCD_DISPLAYCONTROL | CharLCD.displayControl, false);
@@ -182,21 +181,21 @@ public class CharLCD {
 	/**
 	 * moves cursor to left one position
 	 */
-	public void moveLeft() {
+	public static void moveLeft() {
 		write8(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT, false);
 	}
 	
 	/**
 	 * moves cursor to right one position
 	 */
-	public void moveRight() {
+	public static void moveRight() {
 		write8(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT, false);
 	}
 
 	/**
 	 * sets text direction from left to right (default)
 	 */
-	public void setLeftToRight() {
+	public static void setLeftToRight() {
 		CharLCD.displayMode |= LCD_ENTRYLEFT;
 		write8(LCD_ENTRYMODESET | CharLCD.displayMode, false);
 	}
@@ -204,7 +203,7 @@ public class CharLCD {
 	/**
 	 * sets text direction from right to left
 	 */
-	public void setRightToLeft() {
+	public static void setRightToLeft() {
 		CharLCD.displayMode &= ~LCD_ENTRYLEFT;
 		write8(LCD_ENTRYMODESET | CharLCD.displayMode, false);
 	}
@@ -213,7 +212,7 @@ public class CharLCD {
 	 * 'Right justify' or 'left justify' text
 	 * @param autoScroll true to right justify, false to left justify
 	 */
-	public void autoScroll(boolean autoScroll) {
+	public static void autoScroll(boolean autoScroll) {
 		if (autoScroll) CharLCD.displayMode |= LCD_ENTRYSHIFTINCREMENT;
 		else CharLCD.displayMode &= ~LCD_ENTRYSHIFTINCREMENT;
 		write8(LCD_ENTRYMODESET | CharLCD.displayMode, false);
@@ -223,12 +222,12 @@ public class CharLCD {
 	 * writes a message to display, can contain newlines
 	 * @param text message to display
 	 */
-	public void message(String text){
+	public static void message(String text){
 		int line = 0;
 		for (char c : text.toCharArray()){
 			if (c == '\n') {
 				line++;
-				int col = (CharLCD.displayMode & LCD_ENTRYLEFT) > 0 ? 1 : CharLCD.columns - 1;
+				int col = (CharLCD.displayMode & LCD_ENTRYLEFT) > 0 ? 0 : CharLCD.columns - 1;
 				setCursor(col,line);
 			} else {
 				write8(c, true);
@@ -240,8 +239,8 @@ public class CharLCD {
 	 * sets backlight on or off
 	 * @param backlight true to set backlight on, false off
 	 */
-	public void setBacklight(boolean backlight) {
-		setPinState(backlightPin, backlight);
+	public static void setBacklight(boolean backlight) {
+		setPinState(backlightPin, !backlight);
 	}
 	
 	/**
