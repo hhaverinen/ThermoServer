@@ -24,7 +24,7 @@ import pojo.Temperature;
 
 /**
  * @author Henri Haverinen
- * @version 8.2.2016
+ * @version 28.2.2016
  *
  * Controller class for RESTful service
  */
@@ -41,4 +41,18 @@ public class Controller {
 		CharLCD.setBacklight(backlightOn);
 		return "Backlight is " + ((backlightOn) ? "on" : "off");
 	}
+	
+	@RequestMapping("/writeMessage")
+	public void writeMessage(@RequestParam(value="message") String message){
+		CharLCD.clear();
+		CharLCD.message(message);
+	}
+	
+	@RequestMapping("/clearAll")
+	public void clearAll(){
+		CharLCD.clear();
+		CharLCD.blink(false);
+		CharLCD.showCursor(false);
+	}
+
 }

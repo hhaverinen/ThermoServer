@@ -106,7 +106,7 @@ public final class CharLCD {
 	 * @param pin which pin's state will be changed
 	 * @param state true to set state high, false to set state low
 	 */
-	public static void setPinState(GpioPinDigitalOutput pin, boolean state) {
+	private static void setPinState(GpioPinDigitalOutput pin, boolean state) {
 		if (state) {
 			pin.high();
 		} else {
@@ -275,7 +275,7 @@ public final class CharLCD {
 	/**
 	 * pulses the clocl enable line off, on, off to send command
 	 */
-	public static void pulseEnable() {
+	private static void pulseEnable() {
 		try {
 			setPinState(enPin, false);
 			Thread.sleep(1);

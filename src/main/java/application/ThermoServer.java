@@ -16,24 +16,44 @@ package application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
+
+import logic.CharLCD;
 
 /**
  * @author Henri Haverinen
- * @version 24.2.2016
+ * @version 28.2.2016
  *
  * Main class for thermoServer
  */
 @SpringBootApplication
 @EnableScheduling
-public class ThermoServer {
+@Component
+public class ThermoServer implements ApplicationListener<ContextClosedEvent>{
 
 	/**
 	 * @param args not used
 	 */
 	public static void main(String[] args) {
+		CharLCD.setBacklight(true);
 		SpringApplication.run(ThermoServer.class, args);
-
 	}
+
+	/**
+	 * clean stuff when exiting
+	 */
+	@Override
+	public void onApplicationEvent(ContextClosedEvent event) {
+		CharLCD.clear();
+		CharLCD.showCursor(false);
+		CharLCD.setBacklight(false);
+		CharLCD.blink(false);
+		//TODO: clean gpio pins
+	}
+	
+	
 
 }
