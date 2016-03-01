@@ -29,7 +29,7 @@ import pojo.Temperature;
  * Controller class for RESTful service
  */
 @RestController
-public class Controller {
+public class LcdController {
 
 	@RequestMapping("/temperature")
 	public Temperature temperature() {
@@ -54,5 +54,6 @@ public class Controller {
 		CharLCD.blink(false);
 		CharLCD.showCursor(false);
 	}
+	
 
 }

@@ -27,39 +27,39 @@ import com.pi4j.io.gpio.*;
  */
 public final class CharLCD {
 	// Commands
-	static final int LCD_CLEARDISPLAY        = 0x01;
-	static final int LCD_RETURNHOME          = 0x02;
-	static final int LCD_ENTRYMODESET        = 0x04;
-	static final int LCD_DISPLAYCONTROL      = 0x08;
-	static final int LCD_CURSORSHIFT         = 0x10;
-	static final int LCD_FUNCTIONSET         = 0x20;
-	static final int LCD_SETDDRAMADDR        = 0x80;
+    private static final int LCD_CLEARDISPLAY        = 0x01;
+    private static final int LCD_RETURNHOME          = 0x02;
+    private static final int LCD_ENTRYMODESET        = 0x04;
+    private static final int LCD_DISPLAYCONTROL      = 0x08;
+    private static final int LCD_CURSORSHIFT         = 0x10;
+    private static final int LCD_FUNCTIONSET         = 0x20;
+    private static final int LCD_SETDDRAMADDR        = 0x80;
 	
 	// Entry flags
-	static final int LCD_ENTRYLEFT           = 0x02;
-	static final int LCD_ENTRYSHIFTINCREMENT = 0x01;
-	static final int LCD_ENTRYSHIFTDECREMENT = 0x00;
+	private static final int LCD_ENTRYLEFT           = 0x02;
+	private static final int LCD_ENTRYSHIFTINCREMENT = 0x01;
+	private static final int LCD_ENTRYSHIFTDECREMENT = 0x00;
 	
 	// Control flags
-	static final int LCD_DISPLAYON           = 0x04;
-	static final int LCD_CURSORON            = 0x02;
-	static final int LCD_CURSOROFF           = 0x00;
-	static final int LCD_BLINKON             = 0x01;
-	static final int LCD_BLINKOFF            = 0x00;
+	private static final int LCD_DISPLAYON           = 0x04;
+	private static final int LCD_CURSORON            = 0x02;
+	private static final int LCD_CURSOROFF           = 0x00;
+	private static final int LCD_BLINKON             = 0x01;
+	private static final int LCD_BLINKOFF            = 0x00;
 	
 	// Move flags
-	static final int LCD_DISPLAYMOVE         = 0x08;
-	static final int LCD_MOVERIGHT           = 0x04;
-	static final int LCD_MOVELEFT            = 0x00;
+	private static final int LCD_DISPLAYMOVE         = 0x08;
+	private static final int LCD_MOVERIGHT           = 0x04;
+	private static final int LCD_MOVELEFT            = 0x00;
 	
 	// Function set flags
-	static final int LCD_4BITMODE            = 0x00;
-	static final int LCD_2LINE               = 0x08;
-	static final int LCD_1LINE               = 0x00;
-	static final int LCD_5x8DOTS             = 0x00;
+	private static final int LCD_4BITMODE            = 0x00;
+	private static final int LCD_2LINE               = 0x08;
+	private static final int LCD_1LINE               = 0x00;
+	private static final int LCD_5x8DOTS             = 0x00;
 	
 	// Offset for up to 4 rows.
-	static final int[] LCD_ROW_OFFSETS         = {0x00, 0x40, 0x14, 0x54};
+	private static final int[] LCD_ROW_OFFSETS         = {0x00, 0x40, 0x14, 0x54};
 	
 	// Char LCD plate GPIO numbers.
 	// not used, just to remind basic setup
@@ -72,7 +72,7 @@ public final class CharLCD {
 	static final int LCD_PLATE_RED           = 11;
 
 	// Gpio controller and pins
-	private static final GpioController gpio = GpioFactory.getInstance();;
+	private static final GpioController gpio = GpioFactory.getInstance();
 	private static final GpioPinDigitalOutput rsPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02,PinState.LOW);
 	private static final GpioPinDigitalOutput enPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03,PinState.LOW);
 	private static final GpioPinDigitalOutput d4Pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06,PinState.LOW);
